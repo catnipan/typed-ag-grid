@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { TypedColumnDef, TypedAgGrid } from "./TypedAgGrid";
+import { CapitalizedFormatter, USDFormatter } from "./formatter";
 
 type MyDataType = {
   id: string;
   symbol: string;
   date: Date;
   price: number;
-  role: 'ROLE_A' | 'ROLE_B';
+  role: "ROLE_A" | "ROLE_B";
   user: {
     name: string;
     email: string;
@@ -35,23 +36,26 @@ const columnDefs: TypedColumnDef<MyDataType, MyContext>[] = [
     },
   },
   {
+    field: "price",
+    headerName: "price (usd)",
+    valueFormatter: USDFormatter,
+  },
+  {
     field: "user",
-    cellRenderer: ({ value }) => {
-      return (
-        <>
-          {value?.email} - {value?.name}
-        </>
-      );
-    },
+    valueFormatter: ({ value }) => `${value?.email} - ${value?.name}`,
   },
   {
-    field: 'user.email',
-    cellRenderer: ({ value }) => value // value typed as string
+    field: "user.name",
+    valueFormatter: CapitalizedFormatter,
   },
   {
-    field: 'role',
-    cellRenderer: ({ value }) => value // value typed as enum string
-  }
+    field: "user.email",
+    cellRenderer: ({ value }) => value, // value typed as string
+  },
+  {
+    field: "role",
+    cellRenderer: ({ value }) => value, // value typed as enum string
+  },
 ];
 
 export default function App() {
@@ -81,7 +85,7 @@ export default function App() {
                 email: "ypan@clearstreet.io",
                 name: "yifan",
               },
-              role: 'ROLE_A',
+              role: "ROLE_A",
             },
             {
               id: "456",
@@ -92,7 +96,7 @@ export default function App() {
                 email: "ypan@clearstreet.io",
                 name: "yifan",
               },
-              role: 'ROLE_B'
+              role: "ROLE_B",
             },
           ]}
           columnDefs={columnDefs}

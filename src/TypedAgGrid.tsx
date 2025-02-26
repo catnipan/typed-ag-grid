@@ -1,8 +1,10 @@
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 
-import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import { ColDef, ICellRendererParams } from "ag-grid-community";
+import { themeBalham } from "ag-grid-community";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 type GetNestedFieldType<
   T,
@@ -34,12 +36,11 @@ type TypedAgGridProps<TData, TContext = void> = Omit<
   "columnDefs"
 > & {
   columnDefs?: TypedColumnDef<TData, TContext>[];
-  context: TContext
+  context: TContext;
 };
 
 export function TypedAgGrid<TData, TContext = void>(
   props: TypedAgGridProps<TData, TContext>
 ) {
-  return <AgGridReact {...props} />;
+  return <AgGridReact theme={themeBalham} {...props} />;
 }
-
