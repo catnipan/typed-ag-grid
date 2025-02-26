@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EnhancedColumnsDef, EnhancedGrid } from "./EnhancedGrid";
+import { TypedColumnDef, TypedAgGrid } from "./TypedAgGrid";
 
 type MyDataType = {
   id: string;
@@ -17,7 +17,7 @@ type MyContext = {
   precision: "rounded" | "precise";
 };
 
-const columnDefs: EnhancedColumnsDef<MyDataType, MyContext>[] = [
+const columnDefs: TypedColumnDef<MyDataType, MyContext>[] = [
   { field: "id" },
   { field: "symbol" },
   {
@@ -70,7 +70,7 @@ export default function App() {
         style={{ height: "100vh", width: "100%" }}
         className="ag-theme-quartz"
       >
-        <EnhancedGrid<MyDataType, MyContext>
+        <TypedAgGrid<MyDataType, MyContext>
           rowData={[
             {
               id: "123",
@@ -98,7 +98,7 @@ export default function App() {
           columnDefs={columnDefs}
           context={{
             precision,
-            theme: "dark",
+            theme: "dark" as const,
           }}
         />
       </div>

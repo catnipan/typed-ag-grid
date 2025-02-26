@@ -16,7 +16,7 @@ type GetNestedFieldType<
   : never;
 
 type GetFieldPath<TData> = ColDef<TData>["field"] & string;
-export type EnhancedColumnsDef<TData, TContext> = {
+export type TypedColumnDef<TData, TContext> = {
   [FieldPath in GetFieldPath<TData>]: {
     field: FieldPath;
     cellRenderer?: (
@@ -29,16 +29,16 @@ export type EnhancedColumnsDef<TData, TContext> = {
   } & Omit<ColDef<TData, GetNestedFieldType<TData, FieldPath>>, "cellRenderer">;
 }[GetFieldPath<TData>];
 
-type EnhancedGridProps<TData, TContext = void> = Omit<
+type TypedAgGridProps<TData, TContext = void> = Omit<
   React.ComponentProps<typeof AgGridReact<TData>>,
   "columnDefs"
 > & {
-  columnDefs?: EnhancedColumnsDef<TData, TContext>[];
+  columnDefs?: TypedColumnDef<TData, TContext>[];
   context: TContext
 };
 
-export function EnhancedGrid<TData, TContext = void>(
-  props: EnhancedGridProps<TData, TContext>
+export function TypedAgGrid<TData, TContext = void>(
+  props: TypedAgGridProps<TData, TContext>
 ) {
   return <AgGridReact {...props} />;
 }
